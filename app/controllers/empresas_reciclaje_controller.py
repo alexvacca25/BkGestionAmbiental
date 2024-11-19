@@ -1,34 +1,36 @@
 from typing import Dict
 from app.database.database import get_connection
-from app.sql.roles_sql import gestionRol
+from app.sql.empresas_reciclaje import erv
 
-def roles_obtener():
+
+def empresarv_obtener():
     conexion=get_connection()
     try:
         with conexion.cursor() as cursor:
-            cursor.execute(gestionRol.LISTAR)
+            cursor.execute(erv.LISTAR)
             result=cursor.fetchall()
         return result
     finally:
         conexion.close()
 
 
-def roles_crear(roles: Dict):
+def empresarv_crear(empresarv: Dict):
     conexion=get_connection()
     try:
         with conexion.cursor() as cursor:
-            cursor.execute(gestionRol.CREAR,(roles['nombre_rol'],roles['descripcion']))
+            cursor.execute(erv.CREAR,(empresarv['nombre'],empresarv['tipo'],empresarv['direccion'],empresarv['telefono'],empresarv['id_departamento']))
             result=cursor.fetchone()
             conexion.commit()
             return result
     finally:
         conexion.close()
 
-def roles_actualizar(roles: Dict):
+def empresarv_actualizar(empresarv: Dict):
     conexion=get_connection()
+    print(empresarv)
     try:
         with conexion.cursor() as cursor:
-            cursor.execute(gestionRol.ACTUALIZAR,(roles['id_rol'], roles['nombre_rol'],roles['descripcion']))
+            cursor.execute(erv.ACTUALIZAR,(empresarv['id_erv'], empresarv['nombre'],empresarv['tipo'],empresarv['direccion'],empresarv['telefono'],empresarv['id_departamento']))
             result=cursor.fetchone()
             conexion.commit()
             return result
@@ -36,11 +38,11 @@ def roles_actualizar(roles: Dict):
         conexion.close()
         
 
-def roles_eliminar(roles: Dict):
+def empresarv_eliminar(empresarv: Dict):
     conexion=get_connection()
     try:
         with conexion.cursor() as cursor:
-            cursor.execute(gestionRol.ELIMINAR,(roles['id_rol']))
+            cursor.execute(erv.ELIMINAR,(empresarv['id_erv']))
             result=cursor.fetchone()
             conexion.commit()
             return result

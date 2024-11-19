@@ -1,14 +1,27 @@
 from fastapi import APIRouter
 
+from app.controllers.usuarios_controller import usuarios_actualizar, usuarios_crear, usuarios_eliminar, usuarios_obtener
+
 router=APIRouter()
 
 @router.get("/")
 async def get_usuarios():
-    return {"mensaje":"Listado de Usuarios"}
+    data=usuarios_obtener()
+    return data
 
 @router.post("/")
 async def create_usuarios(usuario: dict):
-    return{"mensaje": "Crear Usuarios","Usuario":usuario}
+    data=usuarios_crear(usuario)
+    return data
 
+@router.put("/")
+async def update_usuarios(usuario: dict):
+    data=usuarios_actualizar(usuario)
+    return data
 
-    
+@router.delete("/")
+async def delete_usuarios(usuario: dict):
+    data=usuarios_eliminar(usuario)
+    return data
+
+       

@@ -1,34 +1,36 @@
 from typing import Dict
 from app.database.database import get_connection
-from app.sql.roles_sql import gestionRol
+from app.sql.tratamiento_residuos import gestiontr
 
-def roles_obtener():
+def tratamiento_obtener():
     conexion=get_connection()
     try:
         with conexion.cursor() as cursor:
-            cursor.execute(gestionRol.LISTAR)
+            cursor.execute(gestiontr.LISTAR)
             result=cursor.fetchall()
         return result
     finally:
         conexion.close()
 
 
-def roles_crear(roles: Dict):
+def tratamiento_crear(tratamiento: Dict):
     conexion=get_connection()
+    print(tratamiento)
     try:
         with conexion.cursor() as cursor:
-            cursor.execute(gestionRol.CREAR,(roles['nombre_rol'],roles['descripcion']))
+            cursor.execute(gestiontr.CREAR,(tratamiento['nombre_tratamiento'],tratamiento['descripcion'], tratamiento['responsable']))
             result=cursor.fetchone()
             conexion.commit()
             return result
     finally:
         conexion.close()
 
-def roles_actualizar(roles: Dict):
+def tratamiento_actualizar(tratamiento: Dict):
     conexion=get_connection()
+    print(tratamiento)
     try:
         with conexion.cursor() as cursor:
-            cursor.execute(gestionRol.ACTUALIZAR,(roles['id_rol'], roles['nombre_rol'],roles['descripcion']))
+            cursor.execute(gestiontr.ACTUALIZAR,(tratamiento['id_tratamiento'],tratamiento['nombre_tratamiento'],tratamiento['descripcion'], tratamiento['responsable']))
             result=cursor.fetchone()
             conexion.commit()
             return result
@@ -36,11 +38,11 @@ def roles_actualizar(roles: Dict):
         conexion.close()
         
 
-def roles_eliminar(roles: Dict):
+def tratamiento_eliminar(tratamiento: Dict):
     conexion=get_connection()
     try:
         with conexion.cursor() as cursor:
-            cursor.execute(gestionRol.ELIMINAR,(roles['id_rol']))
+            cursor.execute(gestiontr.ELIMINAR,(tratamiento['id_tratamiento']))
             result=cursor.fetchone()
             conexion.commit()
             return result
