@@ -1,9 +1,10 @@
+from datetime import timedelta
 from typing import Dict
 from app.database.database import get_connection
 from app.sql.auth_sql import gestionAuth
 from app.sql.usuarios import gestionUser
-from app.utils.usuarios_utils import get_password, verify_password
-
+from app.utils.usuarios_utils import crear_token_acceso, get_password, verify_password
+from app.config import settings
 
 def usuario_login(usuario: dict):
     conexion=get_connection()
@@ -20,13 +21,15 @@ def usuario_login(usuario: dict):
                     print(validar)
                     print("********")
                     if validar:
-                        return {"mensaje":"Usuario Logueado", "data": result}
+                        access_token_expires=timedelta(minutes=20)
+                        access_token=crear_token_acceso(data={"sub":usuario["email"]},expirar=access_token_expires)
+                        return {"mensaje":"Usuario Logueado", "data": result, "token":access_token}
                     else:
                         return {"mensaje":"Contraseña Incorrecta"}
             except:
 
                     print("No")
-        return result
+        return {"mensaje":"Error Validacion Usuario"}
     finally:
         conexion.close()
 
