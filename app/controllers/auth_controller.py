@@ -1,10 +1,11 @@
 from typing import Dict
 from app.database.database import get_connection
 from app.sql.auth_sql import gestionAuth
-from app.utils.usuarios_utils import verify_password
+from app.sql.usuarios import gestionUser
+from app.utils.usuarios_utils import get_password, verify_password
 
 
-def usuario_obtener(usuario: dict):
+def usuario_login(usuario: dict):
     conexion=get_connection()
     try:
         with conexion.cursor() as cursor:
@@ -26,5 +27,20 @@ def usuario_obtener(usuario: dict):
 
                     print("No")
         return result
+    finally:
+        conexion.close()
+
+
+def usuarios_registro(usuarios: Dict):
+    conexion=get_connection()
+    try:
+        with conexion.cursor() as cursor:
+           
+            passwd=get_password(usuarios['password'])
+  
+            cursor.execute(gestionUser.CREAR,('',usuarios['email'],passwd,usuarios['fecha_creacion'],'inactivo','','','',''))
+            result=cursor.fetchone()
+            conexion.commit()
+            return result
     finally:
         conexion.close()
