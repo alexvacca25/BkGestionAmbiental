@@ -1,5 +1,6 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 
+from app.utils.usuarios_utils import get_current_user
 from app.views.usuarios import router as usuarios_router
 from app.views.roles import router as roles_router
 from app.views.residuos import router as residuos_router
@@ -18,5 +19,5 @@ api_router.include_router(empresarv_router, prefix="/empresarv")
 api_router.include_router(generadores_router, prefix="/generadores")
 
 api_router.include_router(usuarios_router,prefix="/usuarios")
-api_router.include_router(roles_router, prefix="/roles")
+api_router.include_router(roles_router, prefix="/roles",dependencies=[Depends(get_current_user)])
 api_router.include_router(auth_router,prefix="/auth")

@@ -1,6 +1,7 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 
 from app.controllers.roles_controller import roles_actualizar, roles_crear, roles_eliminar, roles_obtener
+from app.utils.usuarios_utils import get_current_user
 
 router=APIRouter()
 
