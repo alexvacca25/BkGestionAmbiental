@@ -13,11 +13,12 @@ def residuos_obtener():
     finally:
         conexion.close()
 
-def residuos_crear(roles: Dict):
+def residuos_crear(residuo: Dict):
     conexion=get_connection()
+    print(residuo)
     try:
         with conexion.cursor() as cursor:
-            cursor.execute(CREATE_RESIDUOS,(roles['nombre_residuo'],roles['descripcion']))
+            cursor.execute(CREATE_RESIDUOS,(residuo['nombre_residuo'],residuo['descripcion']))
             result=cursor.fetchone()
             conexion.commit()
             return result

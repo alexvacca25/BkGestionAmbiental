@@ -11,6 +11,7 @@ class GestionUser:
     LISTAR_ID="CALL Usuarios_Obtener_Id(%s)"
     CREAR="CALL Usuarios_Crear(%s,%s,%s,%s,%s,%s,%s,%s,%s)"
     ACTUALIZAR="CALL Usuarios_Actualizar(%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+    ACTUALIZAR_ESTADO="CALL Usuarios_Actualizar_Estado(%s,%s)"
     ELIMINAR="CALL Usuarios_Eliminar(%s)"
 
 

@@ -40,6 +40,19 @@ def usuarios_actualizar(usuarios: Dict):
     finally:
         conexion.close()
         
+def usuarios_actualizar_estado(usuarios: Dict):
+    conexion=get_connection()
+    try:
+        with conexion.cursor() as cursor:
+          
+            cursor.execute(gestionUser.ACTUALIZAR_ESTADO,(usuarios['id_usuario'],usuarios['estado']))
+            result=cursor.fetchone()
+            conexion.commit()
+            return result
+    finally:
+        conexion.close()
+
+
 
 def usuarios_eliminar(usuarios: Dict):
     conexion=get_connection()
